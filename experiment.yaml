@@ -1,0 +1,18 @@
+# Training args
+
+model_name: "aware-ai/byt5-german-grammar"
+num_epochs: 10
+generation_max_length: 277
+length_multiplier: 1.5
+train_batch_size: 8
+eval_batch_size: 8
+warmup_steps: 100
+learning_rate : 5e-03
+fp16: False
+gradient_checkpointing: False
+
+metrics:
+  - exact_match
+  - google_bleu
+  - meteor
+  - edit_distance
