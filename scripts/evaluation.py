@@ -1,11 +1,44 @@
 import numpy as np
 from evaluate import load
 import nltk
+from collections import Counter, defaultdict
+import difflib
+import pandas as pd
+
+def error_analysis(predictions, gt_resolutions, original_sentences):
+    d = difflib.Differ()
+    res = []
+
+    for pred_gen, true, sent in zip(predictions, gt_resolutions, original_sentences):
+        entry = {'pred' : pred_gen, 'ground_truth' : true, 'original' : sent}    
+        if pred_gen == true:
+            entry['error_type'] = 'tp'
+        elif pred_gen == sent:
+            entry['error_type'] = 'fn'
+        else:
+            op_codes = difflib.SequenceMatcher(None, true, pred_gen).get_opcodes()
+            counts = Counter([o[0] for o in op_codes])
+            del counts["equal"]
+            if len(counts) > 1:
+                entry['error_type'] = 'complex'
+            else:
+                entry['error_type'] = list(counts.keys())[0]
+        res.append(entry)
+    return pd.DataFrame(res)
 
 def postprocess_text(preds, labels):
     preds = [pred.strip() for pred in preds]
     labels = [[label.strip()] for label in labels]
     return preds, labels
+
+def relative_edit_distance(p, g, o):
+    ed = nltk.edit_distance
+    d = ed(p,g)
+    k = ed(p,o)
+    l = ed(o,g)
+    if d == 0:
+        return 1
+    return 1 - (d / (k + l))
 
 class Metrics:
 
