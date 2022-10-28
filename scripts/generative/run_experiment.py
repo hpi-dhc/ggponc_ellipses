@@ -1,6 +1,6 @@
 from transformers import Seq2SeqTrainingArguments, AutoModelForSeq2SeqLM, DataCollatorForSeq2Seq, AutoTokenizer, Seq2SeqTrainer
 from evaluation import Metrics
-from custom_trainer import Seq2SeqTrainerCustom
+from .custom_trainer import Seq2SeqTrainerCustom
 
 def get_tokenizer(config):
     tokenizer = AutoTokenizer.from_pretrained(config.model_name)
@@ -19,7 +19,7 @@ def get_training_args(config, report_to=None):
         per_device_train_batch_size=config.train_batch_size,
         per_device_eval_batch_size=config.eval_batch_size,
         logging_dir='./logs',
-        logging_steps=1,
+        logging_steps=100,
         warmup_steps=config.warmup_steps,
         load_best_model_at_end=False,#True,
         predict_with_generate=True,

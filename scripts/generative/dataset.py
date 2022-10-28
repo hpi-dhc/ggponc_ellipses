@@ -6,8 +6,7 @@ class EllipsesDataset(Dataset):
         self.tokenizer = tokenizer
 
         self.sentences = sentences.apply(lambda x: self.tokenizer(x, return_tensors='pt', return_length=True))
-        with self.tokenizer.as_target_tokenizer():
-            self.references = references.apply(lambda x: self.tokenizer(x, return_tensors='pt'))
+        self.references = references.apply(lambda x: self.tokenizer(text_target=x, return_tensors='pt'))
 
         if len(sentences) == len(references):
             self.n_samples = len(sentences)
@@ -17,7 +16,7 @@ class EllipsesDataset(Dataset):
     def __getitem__(self, index):
         return dict(
             input_ids=self.sentences.iloc[index]["input_ids"].flatten(),
-            length=self.sentences.iloc[index]["length"].flatten(),
+            #length=self.sentences.iloc[index]["length"].flatten(),
             attention_mask=self.sentences.iloc[index]["attention_mask"].flatten(),
             labels=self.references.iloc[index]["input_ids"].flatten()
         )

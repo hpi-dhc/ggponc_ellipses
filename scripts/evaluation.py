@@ -7,7 +7,6 @@ def postprocess_text(preds, labels):
     labels = [[label.strip()] for label in labels]
     return preds, labels
 
-
 class Metrics:
 
     def __init__(self, metric_names, tokenizer):

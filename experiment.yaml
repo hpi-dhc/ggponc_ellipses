@@ -1,6 +1,6 @@
 # Training args
 
-model_name: "aware-ai/byt5-german-grammar"
+model_name: "Einmalumdiewelt/T5-Base_GNAD"
 num_epochs: 10
 generation_max_length: 277
 length_multiplier: 1.5
