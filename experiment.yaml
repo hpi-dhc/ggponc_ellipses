@@ -1,4 +1,13 @@
+name: "ggponc_ellipses"
+wandb_project: ${name}
+
+data:
+  cnf_tsv_path: '../ggponc_annotation/notebooks/ggponc_ccnfs.tsv'
+  controls_tsv_path: '../ggponc_annotation/notebooks/ggponc_cnfs_controls_small.tsv'
+
 # Training args
+
+random_seed: 42
 
 model_name: "Einmalumdiewelt/T5-Base_GNAD"
 num_epochs: 10
@@ -14,5 +23,16 @@ gradient_checkpointing: False
 metrics:
   - exact_match
   - google_bleu
-  - meteor
   - edit_distance
+  
+  
+output_base_path: ./outputs/${name}
+
+date_run: ${name}/${now:%Y-%m-%d_%H-%M-%S}
+
+hydra:
+  run:
+    dir: ${output_base_path}/${now:%Y-%m-%d_%H-%M-%S}
+  sweep:
+    dir: ./multirun/${name}/${now:%Y-%m-%d_%H-%M-%S}
+    subdir: ${hydra.job.num}_${hydra.job.override_dirname}

@@ -26,11 +26,6 @@ def error_analysis(predictions, gt_resolutions, original_sentences):
         res.append(entry)
     return pd.DataFrame(res)
 
-def postprocess_text(preds, labels):
-    preds = [pred.strip() for pred in preds]
-    labels = [[label.strip()] for label in labels]
-    return preds, labels
-
 def relative_edit_distance(p, g, o):
     ed = nltk.edit_distance
     d = ed(p,g)
@@ -40,17 +35,36 @@ def relative_edit_distance(p, g, o):
         return 1
     return 1 - (d / (k + l))
 
+def get_scores(error_analysis_results, key):
+    m = Metrics(['exact_match', 'google_bleu', 'edit_distance'], None)
+    res = {}
+    error_counts =  error_analysis_results.error_type.value_counts()
+    for k in ['tp', 'fn', 'replace', 'insert', 'delete', 'complex']:
+        v = error_counts.loc[k] if k in error_counts.index else 0
+        res[k] = v / len(error_analysis_results)
+        res[f"{k}_abs"] = v
+    relative_edit_score = error_analysis_results.apply(lambda r: relative_edit_distance(r['pred'], r['ground_truth'], r['original']), axis=1)
+    res["edit_distance_rel"] = relative_edit_score.mean()
+    res["exact_match"] = m.compute_exact_match(error_analysis_results['pred'], error_analysis_results['ground_truth'])
+    res["gleu"] = m.compute_bleu(error_analysis_results['pred'], error_analysis_results['ground_truth'])
+    res["edit_distance_abs"] = m.compute_edit_distance(error_analysis_results['pred'], error_analysis_results['ground_truth'])
+    return { f"{key}/{k}":v for k, v in res.items() } 
+    
+def postprocess_text(preds, labels):
+    preds = [pred.strip() for pred in preds]
+    labels = [[label.strip()] for label in labels]
+    return preds, labels
+
 class Metrics:
 
     def __init__(self, metric_names, tokenizer):
         metric_functions = {
             'exact_match': self.compute_exact_match,
             'google_bleu': self.compute_bleu,
-            'meteor': self.compute_meteor,
             'edit_distance': self.compute_edit_distance
         }
 
-        self.chosen_metrics = {name: load(name) for name in ['exact_match', 'google_bleu', 'meteor']}
+        self.chosen_metrics = {name: load(name) for name in ['exact_match', 'google_bleu']}
         self.chosen_metric_functions = {name: metric_functions[name] for name in metric_names}
         self.tokenizer = tokenizer
 
@@ -73,10 +87,6 @@ class Metrics:
     def compute_bleu(self, preds, refs):
         preds, refs = postprocess_text(preds, refs)
         return self.chosen_metrics["google_bleu"].compute(predictions=preds, references=refs)['google_bleu']
-
-    def compute_meteor(self, preds, refs):
-        #preds, refs = postprocess_text(preds, refs)
-        return self.chosen_metrics["meteor"].compute(predictions=preds, references=refs)['meteor']
 
     def compute_edit_distance(self, preds, refs):
         return np.mean([nltk.edit_distance(pred, ref) for pred, ref in zip(preds, refs)])
