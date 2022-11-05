@@ -1,7 +1,7 @@
 import numpy as np
 from evaluate import load
 import nltk
-from collections import Counter, defaultdict
+from collections import Counter
 import difflib
 import pandas as pd
 
@@ -15,6 +15,8 @@ def error_analysis(predictions, gt_resolutions, original_sentences):
             entry['error_type'] = 'tp'
         elif pred_gen == sent:
             entry['error_type'] = 'fn'
+        elif pred_gen != sent and sent == true:
+            entry['error_type'] = 'fp'
         else:
             op_codes = difflib.SequenceMatcher(None, true, pred_gen).get_opcodes()
             counts = Counter([o[0] for o in op_codes])
