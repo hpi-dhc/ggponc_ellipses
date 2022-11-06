@@ -41,7 +41,7 @@ def get_scores(error_analysis_results, key):
     m = Metrics(['exact_match', 'google_bleu', 'edit_distance'], None)
     res = {}
     error_counts =  error_analysis_results.error_type.value_counts()
-    for k in ['tp', 'fn', 'replace', 'insert', 'delete', 'complex']:
+    for k in ['tp', 'fn', 'fp', 'replace', 'insert', 'delete', 'complex']:
         v = error_counts.loc[k] if k in error_counts.index else 0
         res[k] = v / len(error_analysis_results)
         res[f"{k}_abs"] = v
