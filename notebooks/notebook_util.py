@@ -3,8 +3,9 @@ from difflib import HtmlDiff
 from bs4 import BeautifulSoup
 
 def show_errors(df):
-    for _, r in df.iterrows():
-        display(Markdown(f"__Input ({r.file},{r.sentence_id}):__"))
+    for i, r in df.reset_index().iterrows():
+        display(Markdown(f"{i};{r.file};{r.sentence_id}"))
+        display(Markdown(f"__Input:__"))
         display(Markdown(r.original))
         if r.error_type == "tp":
             display(Markdown("__Prediction (correct):__"))
