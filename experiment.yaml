@@ -43,8 +43,8 @@ hydra:
     storage: null
     study_name: hyperparameter_search
     n_jobs: 1
-    direction: minimize
-    n_trials: 25 
+    direction: maximize
+    n_trials: 25
 
     sampler:
       _target_: optuna.samplers.TPESampler
