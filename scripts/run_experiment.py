@@ -19,6 +19,7 @@ sys.path.append('scripts')
 
 log = logging.getLogger(__name__)
 
+
 def run(config, run_name, sweep_name):
     log.info(f'Fixing random seed {config.random_seed}')
     transformers.trainer_utils.set_seed(config.random_seed)
@@ -28,10 +29,7 @@ def run(config, run_name, sweep_name):
     log.info(OmegaConf.to_yaml(config))
     log.info('Running in: ' + os.getcwd())
 
-
-    with wandb.init(project=config.wandb_project, 
-        name=run_name,
-        reinit=True) as run:
+    with wandb.init(project=config.wandb_project, name=run_name, reinit=True) as run:
 
         wandb.log(OmegaConf.to_container(config))
         wandb.log({'hydra_sweep' : sweep_name})
@@ -49,9 +47,9 @@ def run(config, run_name, sweep_name):
         wandb.log({"n_ellipses_dev": (~val_df.controls).sum()})
         wandb.log({"n_ellipses_test": (~test_df.controls).sum()})
 
-        wandb.log({"n_controls_train" : (train_df.controls).sum()})
-        wandb.log({"n_controls_dev" : (val_df.controls).sum()})
-        wandb.log({"n_controls_test" : (test_df.controls).sum()})
+        wandb.log({"n_controls_train" : train_df.controls.sum()})
+        wandb.log({"n_controls_dev" : val_df.controls.sum()})
+        wandb.log({"n_controls_test" : test_df.controls.sum()})
 
         train_dataset, val_dataset, test_dataset = get_dataloader(train_df, val_df, test_df, tokenizer)
 
@@ -77,9 +75,11 @@ def run(config, run_name, sweep_name):
         test_scores = get_scores(errors_test, "test")
         wandb.log(test_scores)
 
+        return valid_scores['eval/exact_match']
 
-@hydra.main(config_path='..', config_name='experiment.yaml', version_base="1.1")
-def main(config: DictConfig) -> None:
+
+@hydra.main(config_path='../ggponc_ellipses-main', config_name='experiment.yaml', version_base="1.2")
+def main(config: DictConfig):
     hydra_conf = HydraConfig.get()
        
     run_name = Path(os.getcwd()).name
@@ -93,7 +93,9 @@ def main(config: DictConfig) -> None:
         
     log.info(f"Grouping by {sweep_name}")
 
-    run(config, run_name, sweep_name)
+    metric = run(config, run_name, sweep_name)
+
+    return metric
     
 if __name__ == "__main__":
     main()
