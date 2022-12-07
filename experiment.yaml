@@ -52,7 +52,7 @@ hydra:
       n_startup_trials: 10
 
     search_space:
-      learning_rate: choice(1e-04, 1e-03, 1e-02, 1e-01)
+      learning_rate: interval(1e-06, 1e-01)
       train_batch_size: choice(4, 8, 16, 32)
-      weight_decay: choice(1e-05, 1e-04, 1e-03)
-      warmup_steps: choice(0, 10, 100)
+      weight_decay: interval(0.0, 1.0)
+      warmup_steps: range(0, 100)
