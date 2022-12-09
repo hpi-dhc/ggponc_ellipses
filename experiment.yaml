@@ -5,8 +5,9 @@ name: "ggponc_ellipses"
 wandb_project: ${name}
 
 data:
-  cnf_tsv_path: 'data/ggponc_ellipses_compounds.tsv'
-  controls_tsv_path: 'data/ggponc_no_ellipses_small.tsv'
+  cnf_tsv_path: 'data/ellipses/ggponc_ellipses_compounds.tsv'
+  controls_tsv_path: 'data/ellipses/ggponc_no_ellipses_small.tsv'
+  ggponc_plain_text: 'data/ggponc_v2/plain_text/tokens/all_files_tokens'
 
 # Training args
 
@@ -51,8 +52,8 @@ hydra:
       seed: 12345
       n_startup_trials: 10
 
-    search_space:
+    params:
       learning_rate: interval(1e-06, 1e-01)
-      train_batch_size: choice(4, 8, 16, 32)
+      train_batch_size: choice(4, 8, 16)
       weight_decay: interval(0.0, 1.0)
       warmup_steps: range(0, 100)

@@ -12,7 +12,7 @@ import wandb
 from pathlib import Path
 
 from dataset import load_data, get_dataloader
-from generative.run_experiment import get_training_args, get_trainer, get_tokenizer
+from generative.transformers_util import get_training_args, get_trainer, get_tokenizer
 from evaluation import error_analysis, Metrics, get_scores
 
 sys.path.append('scripts')
@@ -78,7 +78,7 @@ def run(config, run_name, sweep_name):
         return valid_scores['eval/exact_match']
 
 
-@hydra.main(config_path='../ggponc_ellipses-main', config_name='experiment.yaml', version_base="1.2")
+@hydra.main(config_path='..', config_name='experiment.yaml', version_base="1.2")
 def main(config: DictConfig):
     hydra_conf = HydraConfig.get()
        

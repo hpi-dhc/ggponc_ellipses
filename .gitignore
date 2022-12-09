@@ -132,3 +132,5 @@ dmypy.json
 **/wandb/*
 outputs/*
 .vscode
+tmp
+multirun/*

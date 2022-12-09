@@ -2,6 +2,8 @@
 
 # Author: Noëmi Aepli, Institute of Computational Linguistics, University of Zurich
 
+# Author: Niklas Kämmer, Hasso Plattner Institute, adapter to be compatible with Python 3
+
 """Script to fix TRUNC-lemmas of elliptically coordinated compounds in T+B corpus
 
 The python program (used as a script) looks for "TRUNC + compound"-patterns, analyses
@@ -38,7 +40,7 @@ import sys
 
 class EllipticCompound():
 
-    def __init__(self, xmlIn, xmlOut, gertwol, freqDict):
+    def __init__(self, xmlIn, xmlOut, gertwol, freqDict, taggedPath):
         self.gertwolDict = self.createGertwolDict(gertwol)
         self.document = cElementTree.parse(xmlIn)
         self.words = self.document.findall('.//w')
@@ -48,7 +50,7 @@ class EllipticCompound():
         self.count = 0
         self.compList = []
         self.taggedList = []
-        with codecs.open('../data/baseline_files/compoundListTagged.txt', 'r', 'utf-8') as fileTagged:  # list of tagged words
+        with codecs.open(taggedPath, 'r', 'utf-8') as fileTagged:  # list of tagged words
             for lines in fileTagged:
                 self.taggedList.append(lines.split())
 
@@ -1084,8 +1086,8 @@ class EllipticCompound():
                 print("{0: <20} {1}".format(k, v))
 
 
-def exchangeLemmas(originalFile, outputFile, gertwolList, wordFreqs):
-    fixLemma = EllipticCompound(originalFile, outputFile, gertwolList, wordFreqs)
+def exchangeLemmas(originalFile, outputFile, gertwolList, wordFreqs, taggedPath):
+    fixLemma = EllipticCompound(originalFile, outputFile, gertwolList, wordFreqs, taggedPath)
     fixLemma.findPattern()
     fixLemma.output(outputFile)
     fixLemma.infoUndecidables(originalFile)
