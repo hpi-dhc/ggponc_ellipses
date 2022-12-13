@@ -1,6 +1,5 @@
 from transformers import Seq2SeqTrainingArguments, AutoModelForSeq2SeqLM, DataCollatorForSeq2Seq, AutoTokenizer, Seq2SeqTrainer
 from evaluation import Metrics
-from .custom_trainer import Seq2SeqTrainerCustom
 
 def get_tokenizer(config):
     tokenizer = AutoTokenizer.from_pretrained(config.model_name)
@@ -38,7 +37,6 @@ def get_trainer(config, tokenizer, training_args, train_data, val_data):
     data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=model)
 
     return Seq2SeqTrainer(
-        #length_multiplier=config.length_multiplier,
         model=model,
         args=training_args,
         train_dataset=train_data,

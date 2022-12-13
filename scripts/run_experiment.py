@@ -19,7 +19,6 @@ sys.path.append('scripts')
 
 log = logging.getLogger(__name__)
 
-
 def run(config, run_name, sweep_name):
     log.info(f'Fixing random seed {config.random_seed}')
     transformers.trainer_utils.set_seed(config.random_seed)

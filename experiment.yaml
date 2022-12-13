@@ -34,6 +34,8 @@ output_base_path: ./outputs/${name}
 date_run: ${name}/${now:%Y-%m-%d_%H-%M-%S}
 
 hydra:
+  job:
+    chdir: true
   run:
     dir: ${output_base_path}/${now:%Y-%m-%d_%H-%M-%S}
   sweep:
@@ -45,7 +47,7 @@ hydra:
     study_name: hyperparameter_search
     n_jobs: 1
     direction: maximize
-    n_trials: 25
+    n_trials: 100
 
     sampler:
       _target_: optuna.samplers.TPESampler
@@ -53,7 +55,8 @@ hydra:
       n_startup_trials: 10
 
     params:
-      learning_rate: interval(1e-06, 1e-01)
+      learning_rate: interval(1e-06, 1e-03)
       train_batch_size: choice(4, 8, 16)
       weight_decay: interval(0.0, 1.0)
-      warmup_steps: range(0, 100)
+      warmup_steps: range(0, 500)
+      generation_max_length: range(50, 500)
