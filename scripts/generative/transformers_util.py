@@ -20,14 +20,16 @@ def get_training_args(config, report_to=None):
         logging_dir='./logs',
         logging_steps=100,
         warmup_steps=config.warmup_steps,
-        load_best_model_at_end=False,#True,
+        load_best_model_at_end=True,
         predict_with_generate=True,
         learning_rate=config.learning_rate,
         generation_max_length=config.generation_max_length,
         evaluation_strategy="epoch",
-        save_strategy="no", # epoch
+        save_strategy="epoch", # epoch
         report_to=report_to,
-        fp16=config.fp16
+        fp16=config.fp16,
+        metric_for_best_model="exact_match",
+        save_total_limit=1,
     )
 
 def get_trainer(config, tokenizer, training_args, train_data, val_data):

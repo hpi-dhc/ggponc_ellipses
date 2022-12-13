@@ -14,9 +14,8 @@ data:
 random_seed: 42
 
 model_name: "google/mt5-base"
-num_epochs: 10
+num_epochs: 20
 generation_max_length: 277
-length_multiplier: 1.5
 train_batch_size: 8
 eval_batch_size: 8
 warmup_steps: 100
