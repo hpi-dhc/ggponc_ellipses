@@ -5,7 +5,7 @@ from collections import Counter
 import difflib
 import pandas as pd
 
-def encode_decode(series):
+def encode_decode(series, tokenizer):
     return [tokenizer.decode(s, skip_special_tokens=True) for s in tokenizer(series.tolist())['input_ids']]
 
 def error_analysis(predictions, gt_resolutions, original_sentences):

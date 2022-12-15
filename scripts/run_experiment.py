@@ -13,7 +13,7 @@ from pathlib import Path
 
 from dataset import load_data, get_dataloader
 from generative.transformers_util import get_training_args, get_trainer, get_tokenizer
-from evaluation import error_analysis, Metrics, get_scores
+from evaluation import error_analysis, Metrics, get_scores, encode_decode
 
 sys.path.append('scripts')
 
@@ -55,13 +55,15 @@ def run(config, run_name, sweep_name):
         trainer = get_trainer(config, tokenizer, training_args, train_dataset, val_dataset)
 
         trainer.train()
+        
+        wandb.log({'best_cp' : trainer.state.best_model_checkpoint})
 
         pipeline = Text2TextGenerationPipeline(model=trainer.model, tokenizer=tokenizer, max_length=config.generation_max_length, device=0)
 
         def get_errors(sample):
             out = pipeline(list(sample.raw_sentence))
             gen = [o['generated_text'] for o in out]
-            errors = error_analysis(gen, sample.full_resolution, sample.raw_sentence)
+            errors = error_analysis(gen, encode_decode(sample.full_resolution, tokenizer), encode_decode(sample.raw_sentence, tokenizer))
             return errors
 
         log.info("Running error analysis on dev set")
