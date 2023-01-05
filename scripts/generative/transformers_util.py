@@ -23,6 +23,7 @@ def get_training_args(config, report_to=None):
         load_best_model_at_end=True,
         predict_with_generate=True,
         learning_rate=config.learning_rate,
+        weight_decay=config.weight_decay,
         generation_max_length=config.generation_max_length,
         evaluation_strategy="epoch",
         save_strategy="epoch", # epoch
