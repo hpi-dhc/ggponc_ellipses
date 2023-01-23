@@ -15,14 +15,15 @@ random_seed: 42
 
 model_name: "google/mt5-base"
 num_epochs: 20
-generation_max_length: 315
+generation_max_length: 277
 train_batch_size: 8
 eval_batch_size: 8
-warmup_steps: 483
-learning_rate : 0.00011712264130873118
-weight_decay: 0.1784597927212862
+warmup_steps: 100
+learning_rate : 5e-04
+weight_decay: 1e-04
 fp16: False
 gradient_checkpointing: False
+api_key:
 
 metrics:
   - exact_match
