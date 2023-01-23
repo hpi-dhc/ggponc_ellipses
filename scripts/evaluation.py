@@ -43,11 +43,11 @@ def relative_edit_distance(p, g, o):
         return 1
     return 1 - (d / (k + l))
 
-def get_scores(error_analysis_results, key):
+def get_scores(error_analysis_results, key, detailed=False):
     m = Metrics(['exact_match', 'google_bleu'], None)
     res = {}
     error_counts =  error_analysis_results.error_type.value_counts()
-    for k in ['tp', 'fn', 'fp', 'replace', 'insert', 'delete', 'complex']:
+    for k in ['tp', 'tn', 'fn', 'fp', 'replace', 'insert', 'delete', 'complex']:
         v = error_counts.loc[k] if k in error_counts.index else 0
         res[k] = v / len(error_analysis_results)
         res[f"{k}_abs"] = v
@@ -56,7 +56,10 @@ def get_scores(error_analysis_results, key):
     res["exact_match"] = m.compute_exact_match(error_analysis_results['pred'], error_analysis_results['ground_truth'])
     res["gleu"] = m.compute_bleu(error_analysis_results['pred'], error_analysis_results['ground_truth'])
     #res["edit_distance_abs"] = m.compute_edit_distance(error_analysis_results['pred'], error_analysis_results['ground_truth'])
-    return { f"{key}/{k}":v for k, v in res.items() } 
+    if detailed:
+        return { f"{key}/{k}":v for k, v in res.items() } 
+    else:
+        return { f"{key}/{k}":res[k] for k in ['exact_match', 'gleu', 'edit_distance_rel']} 
     
 def postprocess_text(preds, labels):
     preds = [pred.strip() for pred in preds]
