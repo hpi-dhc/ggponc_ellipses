@@ -15,7 +15,10 @@ def error_analysis(predictions, gt_resolutions, original_sentences):
     for pred_gen, true, sent in zip(predictions, gt_resolutions, original_sentences):
         entry = {'pred' : pred_gen, 'ground_truth' : true, 'original' : sent}    
         if pred_gen == true:
-            entry['error_type'] = 'tp'
+            if true == sent:
+                entry['error_type'] = 'tn'
+            else:
+                entry['error_type'] = 'tp'
         elif pred_gen == sent:
             entry['error_type'] = 'fn'
         elif pred_gen != sent and sent == true:
