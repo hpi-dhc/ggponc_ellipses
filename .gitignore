@@ -134,3 +134,4 @@ outputs/*
 .vscode
 tmp
 multirun/*
+**/results_*/**
