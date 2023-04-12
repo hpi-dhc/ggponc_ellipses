@@ -1,6 +1,9 @@
 from IPython.display import display, display_markdown, Markdown, HTML
+from evaluation import error_analysis, get_scores, encode_decode
+
 from difflib import HtmlDiff
 from bs4 import BeautifulSoup
+import pandas as pd
 
 def show_errors(df):
     for i, r in df.reset_index().iterrows():
@@ -25,3 +28,16 @@ def show_errors(df):
                 else:
                     tag.name = "div"
             display(HTML(str(soup)))
+            
+def print_eval_row(errors, scores):
+    col_order = ['exact_match', 'edit_distance_rel', 'gleu', 'tp', 'tn', 'fp', 'fn', 'insert', 'delete', 'replace', 'complex'] 
+    errors_df = (errors.error_type.value_counts()).to_frame().T# / len(errors)).to_frame().T
+    row = pd.concat([pd.DataFrame([scores]).rename(columns=lambda n: n.split('/')[1]), errors_df.reset_index()], axis=1)
+    return row.round(3)[col_order]
+    #return row
+    
+def calculate_errors(out, sample, tokenizer):
+    gen_text = [o if type(o) == str else o['generated_text'] for o in out]
+    errors = error_analysis(gen_text, encode_decode(sample.full_resolution, tokenizer), encode_decode(sample.raw_sentence, tokenizer))
+    errors = pd.concat([errors, sample[['file', 'sentence_id']].reset_index()], axis=1)
+    return errors
