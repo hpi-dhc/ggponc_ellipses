@@ -1,2 +1,0 @@
-Aus#land	Ausland	NN	Ausland
-Grindelwald#thals	Grindelwaldthals	NE	Grindelwaldtal
