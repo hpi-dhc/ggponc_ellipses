@@ -1,9 +1,5 @@
 # Resolving Elliptical Compounds in German Medical Text
 
-This repository contains the code to reproduce results from the paper:
-
-ToDo: Citation
-
 ## Preparation
 
 1. Get access to GGPONC following the instructions on the [project homepage](https://www.leitlinienprogramm-onkologie.de/projekte/ggponc-english/) and place the the contents of the 2.0 release (v2.0_2022_03_24) in the `data` folder
@@ -17,8 +13,7 @@ In `notebooks`, we provide the following Jupyter Notebooks to reproduce the resu
 - [01_Dataset.ipynb](notebooks/01_Dataset.ipynb)
     - Corpus Statistics
 - [02_Baseline_Aepli.ipynb](notebooks/02_Baseline_Aepli.ipynb)
-    - Rule-based baseline implemented from Noëmi Aepli and Martin Volk. 2013. [Reconstructing complete lemmas for incomplete German compounds](https://link.springer.com/chapter/10.1007/978-3-642-40722-2_1). In Language Processing and Knowledge in
-      the Web, pages 1–13. Springer
+    - Updated implementation of a rule-based baseline by [Aepli & Volk, 2012](https://link.springer.com/chapter/10.1007/978-3-642-40722-2_1)
 - [03_Generative.ipynb](notebooks/03_Generative.ipynb)
     - Generative approach using HuggingFace transformer-based model
 - [04_Zero_Shot.ipynb](notebooks/04_Zero_Shot.ipynb)
