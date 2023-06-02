@@ -22,7 +22,7 @@ In `notebooks`, we provide the following Jupyter Notebooks to reproduce the resu
 - [03_Generative.ipynb](notebooks/03_Generative.ipynb)
     - Generative approach using HuggingFace transformer-based model
 - [04_Zero_Shot.ipynb](notebooks/04_Zero_Shot.ipynb)
-    - Zero shot approach using ChatGPT (API Key needed)
+    - Zero-shot approach using ChatGPT (API Key needed)
 - [05_TopK.ipynb](notebooks/05_TopK.ipynb)
     - Two-fold approach using generative model to generate the *k* most likely sentences and ChatGPT to choose the best one (API Key needed) 
 
