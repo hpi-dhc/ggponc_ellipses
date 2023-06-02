@@ -4,12 +4,11 @@ defaults:
 name: "ggponc_ellipses"
 wandb_project: ${name}
 
+# Args
 data:
   cnf_tsv_path: 'data/ellipses/ggponc_ellipses_compounds.tsv'
   controls_tsv_path: 'data/ellipses/ggponc_no_ellipses_small.tsv'
   ggponc_plain_text: 'data/ggponc_v2/plain_text/tokens/all_files_tokens'
-
-# Training args
 
 random_seed: 42
 
@@ -33,6 +32,7 @@ output_base_path: ./outputs/${name}
 
 date_run: ${name}/${now:%Y-%m-%d_%H-%M-%S}
 
+# Sweep Args
 hydra:
   job:
     chdir: true

@@ -12,8 +12,8 @@ import wandb
 from pathlib import Path
 
 from dataset import load_data, get_dataloader
-from generative.transformers_util import get_training_args, get_trainer, get_tokenizer
-from evaluation import error_analysis, Metrics, get_scores, encode_decode
+from scripts.transformers_util import get_training_args, get_trainer, get_tokenizer
+from evaluation import error_analysis, get_scores, encode_decode
 
 sys.path.append('scripts')
 
