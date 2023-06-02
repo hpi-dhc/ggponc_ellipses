@@ -24,7 +24,7 @@ In `notebooks`, we provide the following Jupyter Notebooks to reproduce the resu
 - [04_Zero_Shot.ipynb](notebooks/04_Zero_Shot.ipynb)
     - Zero-shot approach using ChatGPT (API Key needed)
 - [05_TopK.ipynb](notebooks/05_TopK.ipynb)
-    - Two-fold approach using generative model to generate the *k* most likely sentences and ChatGPT to choose the best one (API Key needed) 
+    - Two-fold approach using generative model to generate the `k` most likely sentences and ChatGPT to choose the best one (API Key needed) 
 
 ## Running Generative Transformer Experiments with HuggingFace and Hydra
 
@@ -36,7 +36,7 @@ To run such an experiment, do:
 
 If you have installed and configured [Weights & Biases](https://wandb.ai/), it will automatically sync your runs.
 
-To run a hyperparameter sweep, specify your desired paramters in [experiment.yaml](scripts/experiment.yaml) under *params* and pass the optiom `-m` to Hydra, e.g.:
+To run a hyperparameter sweep, specify your desired paramters in [experiment.yaml](scripts/experiment.yaml) under `params` and pass the optiom `-m` to Hydra, e.g.:
 - `python run_experiment.py -m experiment.yaml cuda=0`
 
 ## Citing our Paper
