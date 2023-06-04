@@ -2,7 +2,7 @@
 
 ## Preparation
 
-1. Get access to GGPONC following the instructions on the [project homepage](https://www.leitlinienprogramm-onkologie.de/projekte/ggponc-english/) and place the the contents of the 2.0 release (v2.0_2022_03_24) in the `data` folder
+1. Get access to GGPONC following the instructions on the [project homepage](https://www.leitlinienprogramm-onkologie.de/projekte/ggponc-english/) and place the contents of `ellipses_2023_01_30` in the `data/ellipses` folder (or adapt the path in `experiment.yaml` to point to another directory)
 2. Install Python dependencies `pip install -r requirements.txt`
 3. Fill and adjust the config file [experiment.yaml](scripts/experiment.yaml). If you want to use any of the approaches that require OpenAI services you need to specify your API key in the config
 
@@ -14,12 +14,13 @@ In `notebooks`, we provide the following Jupyter Notebooks to reproduce the resu
     - Corpus Statistics
 - [02_Baseline_Aepli.ipynb](notebooks/02_Baseline_Aepli.ipynb)
     - Updated implementation of a rule-based baseline by [Aepli & Volk, 2012](https://link.springer.com/chapter/10.1007/978-3-642-40722-2_1)
+    - In order to run the baseline, you also need to download the full GGPONC 2.0 corpus and place it under `data/ggponc_v2` (or adapt the path in `experiment.yaml` to point to your data folder) 
 - [03_Generative.ipynb](notebooks/03_Generative.ipynb)
-    - Generative approach using HuggingFace transformer-based model
+    - Generative approach using encoder-decoder Transformer-based model (default: mT5)
 - [04_Zero_Shot.ipynb](notebooks/04_Zero_Shot.ipynb)
-    - Zero-shot approach using ChatGPT (API Key needed)
+    - Zero-shot approach using ChatGPT (API key needed)
 - [05_TopK.ipynb](notebooks/05_TopK.ipynb)
-    - Two-fold approach using generative model to generate the `k` most likely sentences and ChatGPT to choose the best one (API Key needed) 
+    - Multiple-choice approaches using generative model to generate the `k` most likely sentences and ChatGPT to choose the best one (API Key needed) 
 
 ## Running Generative Transformer Experiments with HuggingFace and Hydra
 
@@ -34,7 +35,9 @@ If you have installed and configured [Weights & Biases](https://wandb.ai/), it w
 To run a hyperparameter sweep, specify your desired paramters in [experiment.yaml](scripts/experiment.yaml) under `params` and pass the optiom `-m` to Hydra, e.g.:
 - `python run_experiment.py -m experiment.yaml cuda=0`
 
-## Citing our Paper
+## Citation
 
-ToDo: Citation
+Accepted at BioNLP at ACL'23
+
+TODO: Add Citation
 
