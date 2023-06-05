@@ -24,16 +24,13 @@ In `notebooks`, we provide the following Jupyter Notebooks to reproduce the resu
 
 ## Running Generative Transformer Experiments with HuggingFace and Hydra
 
-In `scripts`, we provide [Hydra](https://github.com/facebookresearch/hydra) configurations for the different  experiments with the best hyperparameters found through grid search.
-To run such an experiment, do:
-- `cd scripts`
-- `python run_experiment.py -cn <experiment>.yaml cuda=<cuda devices>`
-    - for instance: `python run_experiment.py -cn experiment.yaml cuda=0`
+In `scripts`, we provide a [Hydra](https://github.com/facebookresearch/hydra) script that runs training with the optimal hyperparameters set in `experiment.yaml`. 
+
+To run such an experiment, do: `python scripts/run_experiment.py`    
 
 If you have installed and configured [Weights & Biases](https://wandb.ai/), it will automatically sync your runs.
 
-To run a hyperparameter sweep, specify your desired paramters in [experiment.yaml](scripts/experiment.yaml) under `params` and pass the optiom `-m` to Hydra, e.g.:
-- `python run_experiment.py -m experiment.yaml cuda=0`
+To run a hyperparameter sweep, specify your desired paramters in [experiment.yaml](scripts/experiment.yaml) under `params` and pass the optiom `-m` to Hydra, e.g.: `python scripts/run_experiment.py -m`
 
 ## Citation
 
