@@ -12,10 +12,8 @@ import wandb
 from pathlib import Path
 
 from dataset import load_data, get_dataloader
-from scripts.transformers_util import get_training_args, get_trainer, get_tokenizer
+from transformers_util import get_training_args, get_trainer, get_tokenizer
 from evaluation import error_analysis, get_scores, encode_decode
-
-sys.path.append('scripts')
 
 log = logging.getLogger(__name__)
 
