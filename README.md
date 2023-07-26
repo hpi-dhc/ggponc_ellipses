@@ -34,7 +34,23 @@ To run a hyperparameter sweep, specify your desired paramters in [experiment.yam
 
 ## Citation
 
-Accepted at BioNLP at ACL'23
+If you find our data or code useful for your work, please cite the following paper:
 
-TODO: Add Citation
+```
+@inproceedings{kammer-etal-2023-resolving,
+    title = "Resolving Elliptical Compounds in {G}erman Medical Text",
+    author = "Kammer, Niklas  and
+      Borchert, Florian  and
+      Winkler, Silvia  and
+      de Melo, Gerard  and
+      Schapranow, Matthieu-P.",
+    booktitle = "The 22nd Workshop on Biomedical Natural Language Processing and BioNLP Shared Tasks",
+    month = jul,
+    year = "2023",
+    address = "Toronto, Canada",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2023.bionlp-1.26",
+    pages = "292--305",
+}
+```
 
